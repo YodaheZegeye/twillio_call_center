@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import LoginPage from './components/login_page';
-import Dashboard from './components/dashboardashboard';
+import Dashboard from './components/dashboard';
 
 export default function App() {
   const [formData, setFormData] = useState({

@@ -17,7 +17,6 @@ client = Client(TWILIO_SID, TWILIO_TOKEN)
 app = Flask(__name__, static_folder='../client/build', static_url_path='/')
 sock = Sock(app)
 
-# Serve React App
 @app.route('/')
 def serve_frontend():
     return send_from_directory(app.static_folder, 'index.html')
@@ -35,7 +34,7 @@ def initiate_call():
 @app.route('/webhook/outbound', methods=['POST'])
 def twilio_webhook():
     user_json = request.args.get('user')
-    # you might load user data from session or DB
+    # you add the user data from the session here (something to do later if we have time)
     user_data = json.loads(user_json)
     resp = VoiceResponse()
     start = Start()
@@ -59,8 +58,8 @@ def stream(ws):
         message = ws.receive()
         if message is None:
             break
-        # Here you would decode the Twilio media payload and run ASR
-        # For demo, treat incoming `message` as the agent's question text
+        # here you would decode the Twilio media payload and run ASR
+        # for demo, treat incoming `message` as the agent's question text
         reply = fsm.next(message)
         if reply:
             ws.send(json.dumps({ 'type': 'status', 'text': f'Injecting {fsm.step}' }))
